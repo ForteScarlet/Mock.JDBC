@@ -2,6 +2,8 @@ package com.forte.mock.JDBC.table;
 
 import com.forte.mock.JDBC.MockSQL;
 
+import java.util.function.Predicate;
+
 /**
  * MockTable 表映射
  * 通过此类可以进行建表，插入。
@@ -9,7 +11,7 @@ import com.forte.mock.JDBC.MockSQL;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-public interface MockTable extends MockSQL {
+public interface MockTable<T> extends MockSQL {
 
     /**
      * 获取表名
@@ -29,6 +31,38 @@ public interface MockTable extends MockSQL {
      */
     String[] getParameters();
 
+    //**************** 操作相关，通过泛型实现链式操作 ****************//
+
+    /**
+     * 创建一个表
+     * @param ignoreExist 是否忽略表的存在性
+     */
+    void createTable(boolean ignoreExist);
+
+    /**
+     * 创建一个表，默认忽略表的存在性
+     */
+    default void createTable(){
+        createTable(true);
+    }
+
+    /**
+     * 插入一条数据
+     */
+    void insert();
+
+    /**
+     * 插入指定数量的数据
+     * @param limit 数量
+     */
+    void insert(int limit);
+
+    /**
+     * 获取指定数量的通过了过滤器的数据
+     * @param limit  数量
+     * @param filter 过滤器
+     */
+    void insert(int limit, Predicate<T> filter);
 
 
 }
