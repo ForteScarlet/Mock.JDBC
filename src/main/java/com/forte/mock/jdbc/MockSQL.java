@@ -1,4 +1,4 @@
-package com.forte.mock.JDBC;
+package com.forte.mock.jdbc;
 
 /**
  *

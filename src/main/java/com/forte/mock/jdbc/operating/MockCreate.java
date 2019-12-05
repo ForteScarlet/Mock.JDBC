@@ -1,7 +1,7 @@
-package com.forte.mock.JDBC.operating;
+package com.forte.mock.jdbc.operating;
 
-import com.forte.mock.JDBC.MockSQL;
-import com.forte.mock.JDBC.table.MockTable;
+import com.forte.mock.jdbc.MockSQL;
+import com.forte.mock.jdbc.table.MockTable;
 import com.forte.util.mockbean.MockField;
 
 import java.sql.Statement;

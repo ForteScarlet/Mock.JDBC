@@ -1,4 +1,4 @@
-package com.forte.mock.JDBC.connect;
+package com.forte.mock.jdbc.connect;
 
 
 import java.sql.*;

@@ -1,4 +1,4 @@
-package com.forte.mock.JDBC.translator;
+package com.forte.mock.jdbc.translator;
 
 /**
  * 翻译器接口

@@ -1,6 +1,6 @@
-package com.forte.mock.JDBC.operating;
+package com.forte.mock.jdbc.operating;
 
-import com.forte.mock.JDBC.MockSQL;
+import com.forte.mock.jdbc.MockSQL;
 
 /**
  * 提供一个连接对象与参数，执行向数据库插入数据的操作。

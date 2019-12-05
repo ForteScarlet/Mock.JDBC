@@ -1,6 +1,6 @@
-package com.forte.mock.JDBC.table;
+package com.forte.mock.jdbc.table;
 
-import com.forte.mock.JDBC.MockSQL;
+import com.forte.mock.jdbc.MockSQL;
 
 import java.util.function.Predicate;
 

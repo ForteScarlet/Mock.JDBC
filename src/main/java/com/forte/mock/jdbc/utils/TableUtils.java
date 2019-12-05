@@ -1,4 +1,4 @@
-package com.forte.mock.JDBC.utils;
+package com.forte.mock.jdbc.utils;
 
 import java.lang.reflect.Field;
 
