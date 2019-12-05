@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 
 /**
  * MockTable 表映射
@@ -38,6 +39,8 @@ public class MockTable<T> implements Closeable {
     private boolean close = false;
     /** 记录所有的字段名的长度总和 */
     private final int fieldNameLength;
+    /** 默认不自动提交事物 */
+    private boolean autoCommit = false;
 
     /**
      * 构造
@@ -95,20 +98,22 @@ public class MockTable<T> implements Closeable {
         return this.connection.updateAndGet(old -> {
             try {
                 Connection oldConn = old;
-                if(oldConn == null){
-                    Connection connection = this.connectCreator.getConnection();
-                    connection.setAutoCommit(false);
-                    return connection;
-                }else{
-                    if(oldConn.isClosed()){
-                        oldConn = null;
-                    }
-                    return oldConn;
+                if(oldConn != null && oldConn.isClosed()){
+                    oldConn = null;
                 }
+                if(oldConn == null){
+                    oldConn = this.connectCreator.getConnection();
+                }
+                oldConn.setAutoCommit(autoCommit);
+                return oldConn;
             } catch (ClassNotFoundException | SQLException e) {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    public void autoCommit(boolean autoCommit) {
+        this.autoCommit = autoCommit;
     }
 
     /**
@@ -188,9 +193,10 @@ public class MockTable<T> implements Closeable {
      * @throws SQLException
      */
     public void commit() throws SQLException {
-        getConnection().commit();
+        if(!autoCommit){
+            getConnection().commit();
+        }
     }
-
 
 
 }

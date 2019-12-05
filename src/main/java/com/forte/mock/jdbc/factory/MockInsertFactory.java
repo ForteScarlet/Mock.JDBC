@@ -24,7 +24,7 @@ public class MockInsertFactory {
     static {
         ANALYST_MAP = new HashMap<>(2);
         // MYSQL 驱动
-        MockInsertAnalyst<?> mysqlAnalyst = MySQLMockInsert::new;
+        MockInsertAnalyst<?> mysqlAnalyst = table -> new MySQLMockInsert(table);
         ANALYST_MAP.put("com.mysql.jdbc.Driver", mysqlAnalyst);
         ANALYST_MAP.put("com.mysql.cj.jdbc.Driver", mysqlAnalyst);
 

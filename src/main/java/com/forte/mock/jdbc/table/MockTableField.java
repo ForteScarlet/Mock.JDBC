@@ -3,6 +3,7 @@ package com.forte.mock.jdbc.table;
 import com.forte.mock.jdbc.utils.TableUtils;
 import com.forte.util.Mock;
 import com.forte.util.mockbean.MockField;
+import org.apache.commons.beanutils.ConvertUtils;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -62,7 +63,9 @@ public class MockTableField {
      * @param index             索引
      */
     public void setPreparedStatementValue(PreparedStatement preparedStatement, int index) throws SQLException{
-        preparedStatement.setObject(index, mockField.getValue());
+        Object value = mockField.getValue();
+        value = ConvertUtils.convert(value, mockField.getFieldType());
+        preparedStatement.setObject(index, value);
     }
 
 

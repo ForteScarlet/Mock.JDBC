@@ -2,7 +2,7 @@ package com.forte.mock.jdbc.operating.mysql;
 
 import com.forte.mock.jdbc.TypeToDatabase;
 import com.forte.mock.jdbc.operating.MockCreate;
-import com.forte.mock.jdbc.table.BaseMockTableField;
+import com.forte.mock.jdbc.table.MockTableField;
 import com.forte.mock.jdbc.table.MockTable;
 
 import java.sql.SQLException;
@@ -48,7 +48,7 @@ public class MySQLMockCreate implements MockCreate {
             sb.append("CREATE TABLE " + mockTable.getTableName() + "(");
         }
         //建表语句中的字段 CRATE TABLE tableName( xx int ...)
-        for (BaseMockTableField f :
+        for (MockTableField f :
                 mockTable.getFields()) {
             if (null != f) {
                 Map<Class, String> fieldMap = TypeToDatabase.MYSQL.getFieldMap();

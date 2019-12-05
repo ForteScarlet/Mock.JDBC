@@ -21,6 +21,15 @@ public class MySQLMockInsert<T> implements MockInsert<T> {
      */
     private MockTable<T> table;
 
+    /** limit数量 */
+    private int limit = 1;
+    /** 重复数量 */
+    private int round = 1;
+
+    private void initParameters(){
+        limit = 1;
+        round = 1;
+    }
 
     /**
      * 构造
@@ -33,22 +42,45 @@ public class MySQLMockInsert<T> implements MockInsert<T> {
         return table;
     }
 
+    @Override
+    public MySQLMockInsert<T> limit(int limit) {
+        this.limit = limit;
+        return this;
+    }
+
+    @Override
+    public MySQLMockInsert<T> round(int round) {
+        this.round = round;
+        return this;
+    }
+
+    @Override
+    public int insert() throws SQLException {
+        int insert = doInsert(limit, round);
+        initParameters();
+        return insert;
+    }
+
     /**
      * 插入数据
      * @param limit 数据数量
      */
-    @Override
-    public void insert(int limit) throws SQLException {
-        // 获取预处理SQL
-        String preSQL = getPrepareInsertSQL(limit);
-        // 获取statement
-        PreparedStatement preparedStatement = table.getConnection().prepareStatement(preSQL);
+    private int doInsert(int limit, int round) throws SQLException {
+        int update = 0;
+        for (int i = 0; i < round; i++) {
+            // 获取预处理SQL
+            String preSQL = getPrepareInsertSQL(limit);
+            // 获取statement
+            PreparedStatement preparedStatement = table.getConnection().prepareStatement(preSQL);
 
-        // 为预处理参数赋值
-        assignment(preparedStatement, limit);
-        // 执行
-        preparedStatement.execute();
-        table.commit();
+            // 为预处理参数赋值
+            assignment(preparedStatement, limit);
+            // 执行
+            update += preparedStatement.executeUpdate();
+            table.commit();
+            preparedStatement.close();
+        }
+        return update;
     }
 
     /**
