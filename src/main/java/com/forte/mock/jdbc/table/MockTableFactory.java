@@ -15,7 +15,8 @@ public class MockTableFactory {
     /**
      * 保存所有的driver 驱动对应的解析器对象
      */
-    private static final Map<String, Object> DRIVERS = new HashMap<>(2);
+    private static final Map<String, ?> DRIVERS = new HashMap<>(2);
+
 
 
 

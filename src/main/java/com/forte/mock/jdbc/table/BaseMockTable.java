@@ -31,7 +31,7 @@ public abstract class BaseMockTable<T> implements MockSQL {
 
 
     /**
-     * 父类构造
+     * 构造
      * @param connectCreator jdbc连接器
      * @param tableName      表名
      * @param fields         字段列表
