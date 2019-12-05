@@ -3,24 +3,22 @@ package com.forte.mock.jdbc.connect;
 
 import java.sql.*;
 
+/**
+ * @author river <[email]zsa12450@yeah.com>
+ * @since JDK1.8
+ */
 public class AbstractJDBCTemplate implements ConnectAble {
 
-    private String driver;
-    private String url;
-    private String username;
-    private String password;
+    private ConnectInfo connectInfo;
 
-    public AbstractJDBCTemplate(String driver, String url, String username, String password) {
-        this.driver = driver;
-        this.url = url;
-        this.username = username;
-        this.password = password;
+    public AbstractJDBCTemplate(ConnectInfo connectInfo) {
+        this.connectInfo = connectInfo;
     }
 
-
+    @Override
     public Connection getConnection() throws ClassNotFoundException,SQLException {
-        Class.forName(driver);
-        Connection connection = DriverManager.getConnection(url, username, password);
+        Class.forName(connectInfo.getDriver());
+        Connection connection = DriverManager.getConnection(connectInfo.getUrl(), connectInfo.getUsername(), connectInfo.getPassword());
         return connection;
     }
 
@@ -29,6 +27,7 @@ public class AbstractJDBCTemplate implements ConnectAble {
         try {
             connection = getConnection();
             Statement statement = connection.createStatement();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()){
                 int cid = rs.getInt("cid");

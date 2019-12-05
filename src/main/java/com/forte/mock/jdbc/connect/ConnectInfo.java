@@ -11,8 +11,13 @@ import java.io.Serializable;
  **/
 public class ConnectInfo implements Serializable {
     private static final long serialVersionUID = 12346789756343567L;
-
+    /**
+     * 数据库驱动 mysql:com.mysql.jdbc.Driver Oracle:oracle.jdbc.driver.OracleDriver sqlServer:com.microsoft.sqlserver.jdbc.SQLServerDriver
+     */
     private String driver;
+    /**
+     * 数据库地址 mysql:jdbc:mysql://url/database Oracle:jdbc:oracle:thin:@url:port:database jdbc:sqlserver://url:port;DatabaseName=database
+     */
     private String url;
     private String username;
     private String password;
