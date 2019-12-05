@@ -1,10 +1,9 @@
 package com.forte.mock.jdbc.operating;
 
 import com.forte.mock.jdbc.MockSQL;
-import com.forte.mock.jdbc.table.BaseMockTable;
+import com.forte.mock.jdbc.table.MockTable;
 import com.forte.util.mockbean.MockField;
 
-import java.sql.Statement;
 import java.util.Map;
 
 /**
@@ -17,13 +16,16 @@ public interface MockCreate extends MockSQL {
 
     /**
      * 创建一个表
-     * @param statement  sql连接信息
-     * @param tableName  表名
-     * @param fields     字段列表
-     * @param parameters 数据库建表的额外参数列表
+     * @param ignore 是否忽略已经存在的情况
      * @return MockTable对象
      */
-    BaseMockTable createTable(Statement statement, String tableName, MockField[] fields, Map<String, String> parameters);
+    void createTable(boolean ignore);
 
+    /**
+     * 创建表，默认忽略存在情况
+     */
+    default void createTable(){
+        createTable(true);
+    }
 
 }

@@ -1,6 +1,6 @@
 package com.forte.mock.jdbc;
 
-import com.forte.mock.jdbc.table.BaseMockTable;
+import com.forte.mock.jdbc.table.MockTable;
 import com.forte.util.Mock;
 import com.forte.util.mockbean.MockBean;
 import com.forte.util.mockbean.MockObject;
@@ -22,7 +22,7 @@ public class MockJDBC {
      * @param type type类型
      * @return     MockTable对象
      */
-    public static <T> BaseMockTable<T> getTable(Class<T> type){
+    public static <T> MockTable<T> getTable(Class<T> type){
         MockObject<T> mockObj = Mock.get(type);
         return getTable(mockObj);
     }
@@ -32,7 +32,7 @@ public class MockJDBC {
      * @param name name
      * @return MockTable对象
      */
-    public static BaseMockTable getTable(String name){
+    public static MockTable getTable(String name){
         MockObject<Map> mockObj = Mock.get(name);
         return getTable(mockObj);
     }
@@ -43,7 +43,7 @@ public class MockJDBC {
      * @param mockObject mockObject
      * @return table
      */
-    public static <T> BaseMockTable<T> getTable(MockObject<T> mockObject){
+    public static <T> MockTable<T> getTable(MockObject<T> mockObject){
         if(mockObject != null){
             return getTable(mockObject.getMockBean());
         }else{
@@ -56,7 +56,7 @@ public class MockJDBC {
      * @param mockBean mockBean对象
      * @return table
      */
-    public static <T> BaseMockTable<T> getTable(MockBean<T> mockBean){
+    public static <T> MockTable<T> getTable(MockBean<T> mockBean){
         // TODO 转化为 table
         return null;
     }

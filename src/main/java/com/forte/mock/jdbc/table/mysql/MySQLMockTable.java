@@ -1,28 +1,34 @@
 package com.forte.mock.jdbc.table.mysql;
 
 import com.forte.mock.jdbc.connect.ConnectAble;
-import com.forte.mock.jdbc.table.BaseMockTable;
+import com.forte.mock.jdbc.table.MockTable;
 import com.forte.mock.jdbc.table.MockTableField;
+import com.forte.util.mockbean.MockBean;
 
+import java.sql.Connection;
 import java.util.function.Predicate;
 
-/**
- *
- * MySQL对应的数据库
- *
- * @author ForteScarlet <[email]ForteScarlet@163.com>
- * @since JDK1.8
- **/
-public class MySQLMockTable<T> extends BaseMockTable<T> {
+
+@Deprecated
+public class MySQLMockTable<T> extends MockTable<T> {
+
+
+
     /**
      * 构造
+     *
      * @param connectCreator jdbc连接器
      * @param tableName      表名
      * @param fields         字段列表
      * @param parameters     参数列表
+     * @param mockBean
      */
-    public MySQLMockTable(ConnectAble connectCreator, String tableName, MockTableField[] fields, String[] parameters) {
-        super(connectCreator, tableName, fields, parameters);
+    public MySQLMockTable(ConnectAble connectCreator,
+                          String tableName,
+                          MockTableField[] fields,
+                          String[] parameters,
+                          MockBean<T> mockBean) {
+        super(connectCreator, tableName, fields, parameters, mockBean);
     }
 
     @Override
@@ -30,8 +36,14 @@ public class MySQLMockTable<T> extends BaseMockTable<T> {
 
     }
 
+    /**
+     * 插入一条数据
+      */
     @Override
     public void insert() {
+        // 获取连接
+        Connection connection = getConnection();
+//        connection.prepareStatement();
 
     }
 
@@ -45,6 +57,10 @@ public class MySQLMockTable<T> extends BaseMockTable<T> {
 
     }
 
+    /**
+     * to 啥的sql呢？
+     * @return
+     */
     @Override
     public String toSQL() {
         return null;

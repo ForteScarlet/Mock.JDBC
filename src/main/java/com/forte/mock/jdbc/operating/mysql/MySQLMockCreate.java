@@ -1,14 +1,10 @@
 package com.forte.mock.jdbc.operating.mysql;
 
-import com.forte.mock.jdbc.connect.AbstractJDBCTemplate;
-import com.forte.mock.jdbc.connect.ConnectAble;
-import com.forte.mock.jdbc.connect.DefaultMySQLFactory;
 import com.forte.mock.jdbc.operating.MockCreate;
-import com.forte.mock.jdbc.table.BaseMockTable;
+import com.forte.mock.jdbc.table.MockTable;
 import com.forte.util.mockbean.MockField;
 import com.sun.istack.internal.Nullable;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
@@ -24,11 +20,11 @@ public class MySQLMockCreate implements MockCreate {
 
     @Override
     public String toSQL() {
-        return SQL;
+        return null;
     }
 
     @Override
-    public BaseMockTable createTable(Statement statement, String tableName, MockField[] fields,@Nullable Map<String, String> parameters) {
+    public MockTable createTable(Statement statement, String tableName, MockField[] fields, @Nullable Map<String, String> parameters) {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE " + tableName + "(");
         //建表语句中的字段 CRATE TABLE tableName( xx int ...)
