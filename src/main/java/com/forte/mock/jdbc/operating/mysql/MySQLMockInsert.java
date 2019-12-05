@@ -2,7 +2,7 @@ package com.forte.mock.jdbc.operating.mysql;
 
 import com.forte.mock.jdbc.table.MockTable;
 import com.forte.mock.jdbc.operating.MockInsert;
-import com.forte.mock.jdbc.table.BaseMockTableField;
+import com.forte.mock.jdbc.table.MockTableField;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -46,8 +46,9 @@ public class MySQLMockInsert<T> implements MockInsert<T> {
 
         // 为预处理参数赋值
         assignment(preparedStatement, limit);
-
-        // 提交？
+        // 执行
+        preparedStatement.execute();
+        table.commit();
     }
 
     /**
@@ -58,10 +59,10 @@ public class MySQLMockInsert<T> implements MockInsert<T> {
     private void assignment(PreparedStatement preparedStatement, int limit) throws SQLException {
         int fieldLength = table.getFieldLength();
         // 索引从1开始
-        for (int i = 1; i <= limit; i++) {
-            for (int fi = 0; fi < fieldLength; fi++) {
-                BaseMockTableField field = table.getField(fi);
-                field.setPreparedStatementValue(preparedStatement, fi + i);
+        for (int i = 0; i < limit; i++) {
+            for (int fi = 1; fi <= fieldLength; fi++) {
+                MockTableField field = table.getField(fi-1);
+                field.setPreparedStatementValue(preparedStatement, fi + (i * fieldLength));
             }
         }
     }

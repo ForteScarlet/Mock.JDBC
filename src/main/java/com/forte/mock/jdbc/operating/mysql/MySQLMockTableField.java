@@ -1,6 +1,6 @@
 package com.forte.mock.jdbc.operating.mysql;
 
-import com.forte.mock.jdbc.table.BaseMockTableField;
+import com.forte.mock.jdbc.table.MockTableField;
 import com.forte.util.mockbean.MockField;
 
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-public class MySQLMockTableField extends BaseMockTableField {
+public class MySQLMockTableField extends MockTableField {
 
     /**
      * 全参构造

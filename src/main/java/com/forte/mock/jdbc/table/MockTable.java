@@ -29,7 +29,7 @@ public class MockTable<T> implements Closeable {
     /** 表名 */
     private final String tableName;
     /** 表字段列表 */
-    private final BaseMockTableField[] fields;
+    private final MockTableField[] fields;
     /** 尾部参数 */
     private final String[] parameters;
     /** 用于生成假数据的mockBean */
@@ -49,7 +49,7 @@ public class MockTable<T> implements Closeable {
      */
     public MockTable(ConnectAble connectCreator,
                      String tableName,
-                     BaseMockTableField[] fields,
+                     MockTableField[] fields,
                      String[] parameters,
                      MockBean<T> mockBean){
         this.connectCreator = connectCreator;
@@ -58,12 +58,11 @@ public class MockTable<T> implements Closeable {
         this.parameters = parameters;
         this.mockBean = mockBean;
         int fLength = 0;
-        for (BaseMockTableField field : fields) {
+        for (MockTableField field : fields) {
             fLength += field.fieldName().length();
         }
         // 赋值字段总长
         fieldNameLength = fLength;
-
     }
 
     /**
@@ -96,14 +95,14 @@ public class MockTable<T> implements Closeable {
         return this.connection.updateAndGet(old -> {
             try {
                 Connection oldConn = old;
-                if(oldConn.isClosed()){
-                    oldConn = null;
-                }
                 if(oldConn == null){
                     Connection connection = this.connectCreator.getConnection();
                     connection.setAutoCommit(false);
                     return connection;
                 }else{
+                    if(oldConn.isClosed()){
+                        oldConn = null;
+                    }
                     return oldConn;
                 }
             } catch (ClassNotFoundException | SQLException e) {
@@ -124,7 +123,7 @@ public class MockTable<T> implements Closeable {
      * 获取表字段列表
      * @return 表字段列表
      */
-    public BaseMockTableField[] getFields(){
+    public MockTableField[] getFields(){
         return Arrays.copyOf(fields, fields.length);
     }
 
@@ -132,7 +131,7 @@ public class MockTable<T> implements Closeable {
      * 获取指定索引的字段
      * @param index 索引
      */
-    public BaseMockTableField getField(int index){
+    public MockTableField getField(int index){
         return fields[index];
     }
 
@@ -145,7 +144,7 @@ public class MockTable<T> implements Closeable {
      * 遍历字段列表，参数有两个："是否为最后一个"与"字段对象"
      * @param consumer 遍历函数
      */
-    public void fieldForEach(BiConsumer<Boolean, BaseMockTableField> consumer){
+    public void fieldForEach(BiConsumer<Boolean, MockTableField> consumer){
         for (int i = 0; i < fields.length; i++) {
             consumer.accept((i + 1) == fields.length, fields[i]);
         }

@@ -15,7 +15,7 @@ import java.util.Arrays;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-public abstract class BaseMockTableField {
+public class MockTableField {
 
     /** 对应生成假数据的字段对象 */
     private final MockField mockField;
@@ -33,7 +33,7 @@ public abstract class BaseMockTableField {
     /**
      * 全参构造
      */
-    public BaseMockTableField(MockField mockField, String fieldName, String fieldTableType, String[] fieldTableTypeParameters, String[] fieldConstraint, Class<?> fieldType) {
+    public MockTableField(MockField mockField, String fieldName, String fieldTableType, String[] fieldTableTypeParameters, String[] fieldConstraint, Class<?> fieldType) {
         this.mockField = mockField;
         this.fieldName = fieldName;
         this.fieldTableType = fieldTableType;
@@ -42,13 +42,28 @@ public abstract class BaseMockTableField {
         this.fieldType = fieldType;
     }
 
+    public static MockTableField[] parse(MockField... fields){
+        return Arrays.stream(fields).map(mf -> {
+            // TODO 之后考虑额外参数，目前先按照默认的访日
+            return new MockTableField(mf,
+                    mf.getFieldName(),
+                    TableUtils.toUnderline(mf.getFieldName()),
+                    new String[0],
+                    new String[0],
+                    mf.getFieldType()
+            );
+        }).toArray(MockTableField[]::new);
+    }
+
 
     /**
      * 根据类型对参数进行赋值
      * @param preparedStatement 预处理SQL对象
      * @param index             索引
      */
-    public abstract void setPreparedStatementValue(PreparedStatement preparedStatement, int index) throws SQLException;
+    public void setPreparedStatementValue(PreparedStatement preparedStatement, int index) throws SQLException{
+        preparedStatement.setObject(index, mockField.getValue());
+    }
 
 
     /**
