@@ -1,22 +1,44 @@
 package com.forte.mock.jdbc.operating.mysql;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TypeToDatabase {
+public enum TypeToDatabase {
 
-    private static Map<Class,String> fieldMap;
+    MYSQL(
+            new HashMap<Class, String>(16){{
+                put(Integer.class,"int");
+                put(String.class,"varchar");
+                put(Double.class,"double");
+                put(int.class,"int");
+                put(double.class,"double");
+                put(BigDecimal.class,"decimal");
+            }}
+    ),
+    ORACLE(
+            new HashMap<Class,String>(16){{
 
-    static {
-        fieldMap = new HashMap<>(10);
-        fieldMap.put(Integer.class,"int");
-        fieldMap.put(String.class,"varchar");
-        fieldMap.put(Double.class,"double");
-        fieldMap.put(int.class,"int");
-        fieldMap.put(double.class,"double");
+            }}
+    ),
+    SQLSERVER(
+            new HashMap<Class,String>(16){{
+
+            }}
+    );
+
+    private final Map<Class,String> fieldMap;
+
+    TypeToDatabase(Map<Class,String> fieldMap){
+        this.fieldMap = fieldMap;
     }
 
-    public static Map<Class,String> getFieldMap(){
+    /**
+     * 将java的类型转换到MYSQL数据类型
+     */
+
+
+    public Map<Class,String> getFieldMap(){
         return fieldMap;
     }
 

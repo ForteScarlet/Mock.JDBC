@@ -6,6 +6,7 @@ import com.forte.mock.jdbc.connect.DefaultMySQLFactory;
 import com.forte.mock.jdbc.operating.MockCreate;
 import com.forte.mock.jdbc.table.BaseMockTable;
 import com.forte.util.mockbean.MockField;
+import com.sun.istack.internal.Nullable;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -27,25 +28,28 @@ public class MySQLMockCreate implements MockCreate {
     }
 
     @Override
-    public BaseMockTable createTable(Statement statement, String tableName, MockField[] fields, Map<String, String> parameters) {
+    public BaseMockTable createTable(Statement statement, String tableName, MockField[] fields,@Nullable Map<String, String> parameters) {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE " + tableName + "(");
+        //建表语句中的字段 CRATE TABLE tableName( xx int ...)
         for (MockField f :
                 fields) {
             if (null != f) {
-                Map<Class, String> fieldMap = TypeToDatabase.getFieldMap();
+                Map<Class, String> fieldMap = TypeToDatabase.MYSQL.getFieldMap();
                 sb.append(f.getFieldName() + " ");
                 sb.append(fieldMap.get(f.getFieldType()));
             }
         }
         sb.append(')');
-
-        for (Map.Entry<String,String> e :
-                parameters.entrySet()) {
-            sb.append(e.getKey() + "=" + e.getValue());
-            sb.append(' ');
+        //根据参数parameters制定建表引擎与默认编码
+        //如果用户没有传递这个参数，默认采用InnoDB建表引擎与utf8mb4编码
+        if (null != parameters) {
+            for (Map.Entry<String, String> e :
+                    parameters.entrySet()) {
+                sb.append(e.getKey() + "=" + e.getValue());
+                sb.append(' ');
+            }
         }
-
         sb.append(';');
 
         SQL = sb.toString();
