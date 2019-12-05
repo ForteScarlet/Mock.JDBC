@@ -2,12 +2,11 @@ package com.forte.mock.jdbc.operating.mysql;
 
 import com.forte.mock.jdbc.TypeToDatabase;
 import com.forte.mock.jdbc.operating.MockCreate;
+import com.forte.mock.jdbc.table.BaseMockTableField;
 import com.forte.mock.jdbc.table.MockTable;
-import com.forte.util.mockbean.MockField;
-import com.sun.istack.internal.Nullable;
 
 import java.sql.SQLException;
-import java.sql.Statement;
+
 import java.util.Map;
 
 /**
@@ -17,32 +16,54 @@ import java.util.Map;
 public class MySQLMockCreate implements MockCreate {
 
     private String SQL;
+    /**
+     * 数据库表对象
+     */
+    private MockTable<?> mockTable;
 
+    public MySQLMockCreate(MockTable<?> mockTable){
+        this.mockTable = mockTable;
+    }
 
     @Override
     public String toSQL() {
         return null;
     }
 
-    public MockTable createTable(Statement statement, String tableName, MockField[] fields, @Nullable Map<String, String> parameters) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("CREATE TABLE " + tableName + "(");
+    /**
+     * 初始化StringBuilder的初始长度
+     * @return 建表语句的大致字符长度
+     */
+    public int initLength(){
+        int length = mockTable.getFieldNameLength();
+        return length;
+    }
+
+    @Override
+    public void createTable(boolean ignore) {
+        StringBuilder sb = new StringBuilder(initLength());
+        if (ignore) {
+            sb.append("CREATE TABLE IF NOT exists" + mockTable.getTableName() + "(");
+        }else {
+            sb.append("CREATE TABLE " + mockTable.getTableName() + "(");
+        }
         //建表语句中的字段 CRATE TABLE tableName( xx int ...)
-        for (MockField f :
-                fields) {
+        for (BaseMockTableField f :
+                mockTable.getFields()) {
             if (null != f) {
                 Map<Class, String> fieldMap = TypeToDatabase.MYSQL.getFieldMap();
-                sb.append(f.getFieldName() + " ");
-                sb.append(fieldMap.get(f.getFieldType()));
+                sb.append(f.fieldName() + " ");
+                sb.append(fieldMap.get(f.fieldType()));
             }
         }
         sb.append(')');
         //根据参数parameters制定建表引擎与默认编码
         //如果用户没有传递这个参数，默认采用InnoDB建表引擎与utf8mb4编码
+        String[] parameters = mockTable.getParameters();
         if (null != parameters) {
-            for (Map.Entry<String, String> e :
-                    parameters.entrySet()) {
-                sb.append(e.getKey() + "=" + e.getValue());
+            for (String param :
+                    parameters) {
+                sb.append(param);
                 sb.append(' ');
             }
         }
@@ -51,15 +72,9 @@ public class MySQLMockCreate implements MockCreate {
         SQL = sb.toString();
         System.out.println(SQL);
         try {
-            statement.execute(SQL);
+            mockTable.getConnection().createStatement().execute(SQL);
         }catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
-    }
-
-    @Override
-    public void createTable(boolean ignore) {
-
     }
 }
