@@ -1,5 +1,6 @@
 package com.forte.mock.jdbc.operating.mysql;
 
+import com.forte.mock.jdbc.TypeToDatabase;
 import com.forte.mock.jdbc.operating.MockCreate;
 import com.forte.mock.jdbc.table.MockTable;
 import com.forte.util.mockbean.MockField;

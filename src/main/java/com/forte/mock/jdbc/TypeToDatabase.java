@@ -1,4 +1,4 @@
-package com.forte.mock.jdbc.operating.mysql;
+package com.forte.mock.jdbc;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
