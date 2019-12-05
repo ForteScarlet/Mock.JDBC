@@ -1,8 +1,8 @@
 package com.forte.mock.jdbc.table;
 
-import com.forte.mock.jdbc.MockSQL;
 import com.forte.mock.jdbc.connect.ConnectAble;
-import com.forte.util.Mock;
+import com.forte.mock.jdbc.factory.MockInsertFactory;
+import com.forte.mock.jdbc.operating.MockInsert;
 import com.forte.util.mockbean.MockBean;
 
 import java.io.Closeable;
@@ -29,7 +29,7 @@ public class MockTable<T> implements Closeable {
     /** 表名 */
     private final String tableName;
     /** 表字段列表 */
-    private final MockTableField[] fields;
+    private final BaseMockTableField[] fields;
     /** 尾部参数 */
     private final String[] parameters;
     /** 用于生成假数据的mockBean */
@@ -49,7 +49,7 @@ public class MockTable<T> implements Closeable {
      */
     public MockTable(ConnectAble connectCreator,
                      String tableName,
-                     MockTableField[] fields,
+                     BaseMockTableField[] fields,
                      String[] parameters,
                      MockBean<T> mockBean){
         this.connectCreator = connectCreator;
@@ -58,12 +58,19 @@ public class MockTable<T> implements Closeable {
         this.parameters = parameters;
         this.mockBean = mockBean;
         int fLength = 0;
-        for (MockTableField field : fields) {
+        for (BaseMockTableField field : fields) {
             fLength += field.fieldName().length();
         }
         // 赋值字段总长
         fieldNameLength = fLength;
 
+    }
+
+    /**
+     * 获取一个MockInsert对象
+     */
+    public MockInsert<T> getInsert(){
+        return MockInsertFactory.getInsert(this);
     }
 
     /**
@@ -85,6 +92,7 @@ public class MockTable<T> implements Closeable {
             throw new RuntimeException("The connection has been closed");
         }
 
+        // 获取一个链接，如果获取过了，但是它链接断开了，就重新获取
         return this.connection.updateAndGet(old -> {
             try {
                 Connection oldConn = old;
@@ -116,7 +124,7 @@ public class MockTable<T> implements Closeable {
      * 获取表字段列表
      * @return 表字段列表
      */
-    public MockTableField[] getFields(){
+    public BaseMockTableField[] getFields(){
         return Arrays.copyOf(fields, fields.length);
     }
 
@@ -124,15 +132,20 @@ public class MockTable<T> implements Closeable {
      * 获取指定索引的字段
      * @param index 索引
      */
-    public MockTableField getField(int index){
+    public BaseMockTableField getField(int index){
         return fields[index];
+    }
+
+
+    public int getFieldLength(){
+        return fields.length;
     }
 
     /**
      * 遍历字段列表，参数有两个："是否为最后一个"与"字段对象"
      * @param consumer 遍历函数
      */
-    public void fieldForEach(BiConsumer<Boolean, MockTableField> consumer){
+    public void fieldForEach(BiConsumer<Boolean, BaseMockTableField> consumer){
         for (int i = 0; i < fields.length; i++) {
             consumer.accept((i + 1) == fields.length, fields[i]);
         }
@@ -170,43 +183,15 @@ public class MockTable<T> implements Closeable {
         return close;
     }
 
+    /**
+     * 提交sql
+     *
+     * @throws SQLException
+     */
     public void commit() throws SQLException {
         getConnection().commit();
     }
 
-
-
-//
-//    /**
-//     * 创建一个表
-//     * @param ignoreExist 是否忽略表的存在性
-//     */
-//    public abstract void createTable(boolean ignoreExist);
-//
-//    /**
-//     * 创建一个表，默认忽略表的存在性
-//     */
-//    public void createTable(){
-//        createTable(true);
-//    }
-//
-//    /**
-//     * 插入一条数据
-//     */
-//    public abstract void insert();
-//
-//    /**
-//     * 插入指定数量的数据
-//     * @param limit 数量
-//     */
-//    public abstract void insert(int limit);
-//
-//    /**
-//     * 获取指定数量的通过了过滤器的数据
-//     * @param limit  数量
-//     * @param filter 过滤器
-//     */
-//    public abstract void insert(int limit, Predicate<T> filter);
 
 
 }

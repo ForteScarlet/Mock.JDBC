@@ -1,5 +1,7 @@
 package com.forte.mock.jdbc;
 
+import com.forte.mock.jdbc.connect.ConnectAble;
+import com.forte.mock.jdbc.connect.ConnectInfo;
 import com.forte.mock.jdbc.table.MockTable;
 import com.forte.util.Mock;
 import com.forte.util.mockbean.MockBean;
@@ -56,7 +58,8 @@ public class MockJDBC {
      * @param mockBean mockBean对象
      * @return table
      */
-    public static <T> MockTable<T> getTable(MockBean<T> mockBean){
+    public static <T> MockTable<T> getTable(ConnectInfo info, MockBean<T> mockBean){
+        
         // TODO 转化为 table
         return null;
     }
