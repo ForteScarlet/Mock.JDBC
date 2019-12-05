@@ -1,7 +1,7 @@
 package com.forte.mock.jdbc.operating.mysql;
 
 import com.forte.mock.jdbc.operating.MockCreate;
-import com.forte.mock.jdbc.table.MockTable;
+import com.forte.mock.jdbc.table.BaseMockTable;
 import com.forte.util.mockbean.MockField;
 
 import java.sql.Statement;
@@ -19,7 +19,7 @@ public class MySQLMockCreate implements MockCreate {
     }
 
     @Override
-    public MockTable createTable(Statement statement, String tableName, MockField[] fields, Map<String, String> parameters) {
+    public BaseMockTable createTable(Statement statement, String tableName, MockField[] fields, Map<String, String> parameters) {
         return null;
     }
 }
