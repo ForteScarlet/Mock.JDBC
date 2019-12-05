@@ -22,6 +22,11 @@ public class AbstractJDBCTemplate implements ConnectAble {
         return connection;
     }
 
+    @Override
+    public ConnectInfo getConnectInfo() {
+        return connectInfo;
+    }
+
     public void execute(String sql){
         Connection connection = null;
         try {

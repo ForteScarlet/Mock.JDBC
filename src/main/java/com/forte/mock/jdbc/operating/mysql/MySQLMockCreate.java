@@ -24,7 +24,6 @@ public class MySQLMockCreate implements MockCreate {
         return null;
     }
 
-    @Override
     public MockTable createTable(Statement statement, String tableName, MockField[] fields, @Nullable Map<String, String> parameters) {
         StringBuilder sb = new StringBuilder();
         sb.append("CREATE TABLE " + tableName + "(");
@@ -57,5 +56,10 @@ public class MySQLMockCreate implements MockCreate {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void createTable(boolean ignore) {
+
     }
 }

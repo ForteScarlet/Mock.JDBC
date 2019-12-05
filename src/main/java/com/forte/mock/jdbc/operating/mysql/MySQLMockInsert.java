@@ -1,6 +1,7 @@
 package com.forte.mock.jdbc.operating.mysql;
 
 import com.forte.mock.jdbc.table.MockTable;
+import com.forte.mock.jdbc.operating.MockInsert;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

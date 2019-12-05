@@ -22,7 +22,7 @@ public interface MockInsert extends MockSQL {
      */
     default void insert() throws SQLException {
         insert(1);
-    };
+    }
 
 
 
