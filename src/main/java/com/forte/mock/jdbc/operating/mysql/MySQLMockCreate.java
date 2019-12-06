@@ -35,24 +35,23 @@ public class MySQLMockCreate implements MockCreate {
      * @return 建表语句的大致字符长度
      */
     public int initLength(){
-        int length = mockTable.getFieldNameLength();
-        return length;
+        return mockTable.getFieldNameLength();
     }
 
     @Override
     public void createTable(boolean ignore) {
         StringBuilder sb = new StringBuilder(initLength());
         if (ignore) {
-            sb.append("CREATE TABLE IF NOT exists" + mockTable.getTableName() + "(");
+            sb.append("CREATE TABLE IF NOT exists").append(mockTable.getTableName()).append("(");
         }else {
-            sb.append("CREATE TABLE " + mockTable.getTableName() + "(");
+            sb.append("CREATE TABLE ").append(mockTable.getTableName()).append("(");
         }
         //建表语句中的字段 CRATE TABLE tableName( xx int ...)
         for (MockTableField f :
                 mockTable.getFields()) {
             if (null != f) {
                 Map<Class, String> fieldMap = TypeToDatabase.MYSQL.getFieldMap();
-                sb.append(f.fieldName() + " ");
+                sb.append(f.fieldName()).append(" ");
                 sb.append(fieldMap.get(f.fieldType()));
             }
         }

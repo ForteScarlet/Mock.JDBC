@@ -3,6 +3,8 @@ package com.forte.mock.jdbc.operating;
 import com.forte.mock.jdbc.MockSQL;
 
 import java.sql.SQLException;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * 提供一个连接对象与参数，执行向数据库插入数据的操作。
@@ -28,6 +30,35 @@ public interface MockInsert<T> extends MockSQL {
      */
     MockInsert<T> round(int round);
 
+    /**
+     * 可以提供一些中间操作，例如用来打印日志等。
+     * peek函数的两个参数: round值与sql字符串
+     * @param sqlPeek peek
+     * @return 链式
+     */
+    MockInsert<T> sqlPeek(BiConsumer<Integer, String> sqlPeek);
+
+    /**
+     * 是否启用异步
+     * @param enable s是否开启
+     * @return 链式
+     */
+    MockInsert<T> parallel(boolean enable);
+
+    /**
+     * 启用异步
+     * @return 链式
+     */
+    default MockInsert<T> parallel(){
+        return parallel(true);
+    }
+
+    /**
+     * 用户自定义的异常捕获。
+     * @param errCatch 异常处理器
+     * @return 链式
+     */
+    MockInsert<T> catchSQLError(Consumer<SQLException> errCatch);
 
     //**************** 终结参数 ****************//
 
@@ -36,7 +67,7 @@ public interface MockInsert<T> extends MockSQL {
      * 且在插入完成后初始化上述参数。
      * @return 插入条数
      */
-    int insert() throws SQLException ;
+    int insert();
 
     ////////////////////////
 
@@ -46,7 +77,7 @@ public interface MockInsert<T> extends MockSQL {
      * @return 插入成功条数
      * @throws SQLException 数据库操作必然伴随着SQL异常
      */
-    default int insert(int limit) throws SQLException {
+    default int insert(int limit) {
         return limit(limit).insert();
     }
 

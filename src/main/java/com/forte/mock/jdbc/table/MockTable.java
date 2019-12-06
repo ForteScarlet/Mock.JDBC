@@ -112,8 +112,19 @@ public class MockTable<T> implements Closeable {
         });
     }
 
+    /**
+     * 设置是否自动提交
+     * @param autoCommit 是否自动提交
+     */
     public void autoCommit(boolean autoCommit) {
         this.autoCommit = autoCommit;
+    }
+
+    /**
+     * 设置为自动提交
+     */
+    public void autoCommit(){
+        autoCommit(true);
     }
 
     /**
@@ -196,6 +207,10 @@ public class MockTable<T> implements Closeable {
         if(!autoCommit){
             getConnection().commit();
         }
+    }
+
+    public void rollback() throws SQLException {
+        getConnection().rollback();
     }
 
 

@@ -8,6 +8,7 @@ import com.forte.mock.jdbc.table.MockTable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.stream.Stream;
 
 /**
  *
