@@ -7,6 +7,7 @@ import java.util.Map;
 /**
  * 数据类型与数据库类型对应表。
  * TODO 注意，需要考虑：Object类型、map中拿不到的类型。
+ *  顺便，根据SQL书写规范（我也不知道是不是有这么个规范），数据库类型使用全大写
  */
 public enum TypeToDatabase {
 
