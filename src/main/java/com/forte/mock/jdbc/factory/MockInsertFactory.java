@@ -1,6 +1,5 @@
 package com.forte.mock.jdbc.factory;
 
-import com.forte.mock.jdbc.connect.ConnectAble;
 import com.forte.mock.jdbc.operating.MockInsert;
 import com.forte.mock.jdbc.operating.mysql.MySQLMockInsert;
 import com.forte.mock.jdbc.table.MockTable;
@@ -8,7 +7,6 @@ import com.forte.mock.jdbc.table.MockTable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
-import java.util.stream.Stream;
 
 /**
  *
@@ -48,7 +46,7 @@ public class MockInsertFactory {
      * @param analyst  插入器获取函数
      */
     public static void register(String driver, MockInsertAnalyst analyst) {
-        ANALYST_MAP.merge(driver, analyst, remappingFunction(driver, false));
+        register(driver, analyst, false);
     }
 
     /**
@@ -56,7 +54,7 @@ public class MockInsertFactory {
      * @param driver   driver驱动
      * @param override 是否可覆盖
      */
-    public static <V> BiFunction<? super V, ? super V, ? extends V> remappingFunction(String driver, boolean override) {
+    private static <V> BiFunction<? super V, ? super V, ? extends V> remappingFunction(String driver, boolean override) {
         if(override){
             return (old, val) -> val;
         }else{
