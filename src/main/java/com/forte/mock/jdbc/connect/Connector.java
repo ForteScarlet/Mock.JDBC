@@ -9,7 +9,7 @@ import java.util.Properties;
 
 /**
  *
- * 临时使用的连接器
+ * 连接数据信息。
  *
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8

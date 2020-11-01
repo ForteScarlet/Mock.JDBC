@@ -11,7 +11,7 @@ public interface ConnectAble {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-    Connection getConnection()throws ClassNotFoundException,SQLException;
+    Connection getConnection() throws ClassNotFoundException,SQLException;
 
     /**
      * 获取连接信息

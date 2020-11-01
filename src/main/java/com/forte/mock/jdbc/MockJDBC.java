@@ -7,6 +7,7 @@ import com.forte.mock.jdbc.table.MockTableField;
 import com.forte.mock.jdbc.utils.TableUtils;
 import com.forte.util.Mock;
 import com.forte.util.mockbean.MockBean;
+import com.forte.util.mockbean.MockMapObject;
 import com.forte.util.mockbean.MockObject;
 
 import java.util.Map;
@@ -31,12 +32,13 @@ public class MockJDBC {
         return getTable(connectable, mockObj);
     }
 
+
     /**
      * 根据一个名称获取一个MockTable
      * @param name name
      * @return MockTable对象
      */
-    public static MockTable getTable(ConnectAble connectable, String name){
+    public static MockTable<Map> getTable(ConnectAble connectable, String name){
         MockObject<Map> mockObj = Mock.get(name);
         return getTable(connectable, mockObj);
     }
