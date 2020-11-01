@@ -88,10 +88,11 @@ public class MockTable<T> implements Closeable {
 
     /**
      * 获取一个连接。注意，获取的连接默认会切换至非自动提交状态。
+     * TODO 可以考虑实现连接池而不是单连接
      */
     public Connection getConnection() throws RuntimeException {
         if(close) {
-            throw new RuntimeException("The connection has been closed");
+            throw new RuntimeException("The table connection has been closed.");
         }
 
         // 获取一个链接，如果获取过了，但是它链接断开了，就重新获取

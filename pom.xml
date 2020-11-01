@@ -6,7 +6,7 @@
 
     <groupId>com.forte.util</groupId>
     <artifactId>Mock.JDBC</artifactId>
-    <version>0.0.0</version>
+    <version>0.0.1</version>
 
     <url>https://github.com/ForteScarlet/Mock.JDBC</url>
     <name>Mock.JDBC</name>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.16</version>
+            <version>5.1.45</version>
         </dependency>
 
     </dependencies>

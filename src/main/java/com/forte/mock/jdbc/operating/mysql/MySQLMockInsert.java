@@ -159,7 +159,6 @@ public class MySQLMockInsert<T> implements MockInsert<T> {
             }
         }
         // 初始化参数
-        initParameters();
         return finalUpdate;
     }
 

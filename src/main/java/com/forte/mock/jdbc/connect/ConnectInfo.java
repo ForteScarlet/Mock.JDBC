@@ -12,7 +12,10 @@ import java.io.Serializable;
 public class ConnectInfo implements Serializable {
     private static final long serialVersionUID = 12346789756343567L;
     /**
-     * 数据库驱动 mysql:com.mysql.jdbc.Driver Oracle:oracle.jdbc.driver.OracleDriver sqlServer:com.microsoft.sqlserver.jdbc.SQLServerDriver
+     * 数据库驱动<br>
+     *     mysql:com.mysql.jdbc.Driver<br>
+     *     Oracle:oracle.jdbc.driver.OracleDriver<br>
+     *     sqlServer:com.microsoft.sqlserver.jdbc.SQLServerDriver
      */
     private String driver;
     /**

@@ -14,7 +14,7 @@ import java.util.Properties;
  * @author ForteScarlet <[email]ForteScarlet@163.com>
  * @since JDK1.8
  **/
-public class BaseConnector implements ConnectAble {
+public class Connector implements ConnectAble {
 
     /**
      * 连接信息
@@ -42,15 +42,15 @@ public class BaseConnector implements ConnectAble {
     /**
      * 构造
      */
-    private BaseConnector(ConnectInfo connectInfo){
+    private Connector(ConnectInfo connectInfo){
         this.connectInfo = connectInfo;
     }
 
     /**
      * 获取一个连接获取器
      */
-    public static BaseConnector of(ConnectInfo connectInfo){
-        return new BaseConnector(connectInfo);
+    public static Connector of(ConnectInfo connectInfo){
+        return new Connector(connectInfo);
     }
 
     /**
@@ -60,9 +60,9 @@ public class BaseConnector implements ConnectAble {
      * @param username  用户名
      * @param password  密码
      */
-    public static BaseConnector of(String driver, String url, String username, String password){
+    public static Connector of(String driver, String url, String username, String password){
         ConnectInfo info = new ConnectInfo(driver, url, username, password);
-        return new BaseConnector(info);
+        return new Connector(info);
     }
 
     /**
@@ -75,13 +75,13 @@ public class BaseConnector implements ConnectAble {
      * </ul>
      * @param data proterties数据
      */
-    public static BaseConnector of(Properties data){
+    public static Connector of(Properties data){
         ConnectInfo info = new ConnectInfo();
         info.setDriver(  Objects.requireNonNull(data.getProperty("driver")  , "value of 'driver' not found.")  );
         info.setUrl(     Objects.requireNonNull(data.getProperty("url")     , "value of 'url' not found.")     );
         info.setUsername(Objects.requireNonNull(data.getProperty("username"), "value of 'username' not found."));
         info.setPassword(Objects.requireNonNull(data.getProperty("password"), "value of 'password' not found."));
-        return new BaseConnector(info);
+        return new Connector(info);
     }
 
     /**
@@ -95,13 +95,13 @@ public class BaseConnector implements ConnectAble {
      * value值会通过String.valueOf()转化为字符串
      * @param data map数据
      */
-    public static BaseConnector of(Map<String, ?> data){
+    public static Connector of(Map<String, ?> data){
         ConnectInfo info = new ConnectInfo();
         info.setDriver(  String.valueOf(Objects.requireNonNull(data.get("driver")  , "value of 'driver' not found.")  ));
         info.setUrl(     String.valueOf(Objects.requireNonNull(data.get("url")     , "value of 'url' not found.")     ));
         info.setUsername(String.valueOf(Objects.requireNonNull(data.get("username"), "value of 'username' not found.")));
         info.setPassword(String.valueOf(Objects.requireNonNull(data.get("password"), "value of 'password' not found.")));
-        return new BaseConnector(info);
+        return new Connector(info);
     }
 
 }

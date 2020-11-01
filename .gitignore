@@ -118,3 +118,15 @@ buildNumber.properties
 MockJDBC.iml
 #pom.xml
 #src/
+src/main/java/com/forte/mock/jdbc/resolve/
+src/main/resources/
+src/test/java/com/forte/Test2.java
+src/test/java/com/forte/TestUser.java
+src/test/java/com/forte/test2/
+src/test/java/com/test/
+src/main/java/com/forte/mock/jdbc/resolve/
+src/main/resources/
+src/test/java/com/forte/Test2.java
+src/test/java/com/forte/TestUser.java
+src/test/java/com/forte/test2/
+src/test/java/com/test/
