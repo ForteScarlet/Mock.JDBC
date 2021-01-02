@@ -8,6 +8,9 @@ import org.apache.commons.beanutils.ConvertUtils;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiFunction;
 
 /**
  *
@@ -56,14 +59,19 @@ public class MockTableField {
         }).toArray(MockTableField[]::new);
     }
 
+    public static final AtomicInteger iii = new AtomicInteger(41);
+
 
     /**
      * 根据类型对参数进行赋值
      * @param preparedStatement 预处理SQL对象
      * @param index             索引
      */
-    public void setPreparedStatementValue(PreparedStatement preparedStatement, int index) throws SQLException{
+    public void setPreparedStatementValue(PreparedStatement preparedStatement, int index, List<BiFunction<String, Object, Object>> mappers) throws SQLException{
         Object value = mockField.getValue();
+        for (BiFunction<String, Object, Object> mapper : mappers) {
+            value = mapper.apply(mockField.getFieldName(), value);
+        }
         value = ConvertUtils.convert(value, mockField.getFieldType());
         preparedStatement.setObject(index, value);
     }

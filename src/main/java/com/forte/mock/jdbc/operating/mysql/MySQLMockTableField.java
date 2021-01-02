@@ -5,6 +5,8 @@ import com.forte.util.mockbean.MockField;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.function.BiFunction;
 
 /**
  * @author ForteScarlet <[email]ForteScarlet@163.com>
@@ -19,14 +21,14 @@ public class MySQLMockTableField extends MockTableField {
         super(mockField, fieldName, fieldTableType, fieldTableTypeParameters, fieldConstraint, fieldType);
     }
 
-    /**
-     * 得到一个预处理对象，对其进行赋值
-     * @param statement 预处理SQL对象
-     * @param index     索引
-     */
     @Override
-    public void setPreparedStatementValue(PreparedStatement statement, int index) throws SQLException {
+    public void setPreparedStatementValue(PreparedStatement preparedStatement, int index, List<BiFunction<String, Object, Object>> mappers) throws SQLException {
         // 获取一个假数据
-        statement.setObject(index, getMockValue());
+        Object mockValue = getMockValue();
+        for (BiFunction<String, Object, Object> mapper : mappers) {
+            mockValue = mapper.apply(getMockField().getFieldName(), mockValue);
+        }
+        preparedStatement.setObject(index, mockValue);
     }
+
 }

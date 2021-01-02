@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -37,6 +38,12 @@ public class MySQLMockInsert<T> implements MockInsert<T> {
      * 保存所有的sqlPeek
      */
     private List<BiConsumer<Integer, String>> sqlPeeks = new ArrayList<>(2);
+
+    /**
+     * 保存所有的sqlPeek
+     */
+    private List<BiFunction<String, Object, Object>> consumers = new ArrayList<>(2);
+
     /**
      * 是否启用异步
      */
@@ -87,6 +94,18 @@ public class MySQLMockInsert<T> implements MockInsert<T> {
     @Override
     public MockInsert<T> sqlPeek(BiConsumer<Integer, String> sqlPeek) {
         sqlPeeks.add(sqlPeek);
+        return this;
+    }
+
+
+    /**
+     * 进行中间操作。
+     * @param mapper mapper
+     * @return
+     */
+    @Override
+    public MockInsert<T> map(BiFunction<String, Object, Object> mapper) {
+        consumers.add(mapper);
         return this;
     }
 
@@ -174,7 +193,7 @@ public class MySQLMockInsert<T> implements MockInsert<T> {
         for (int i = 0; i < limit; i++) {
             for (int fi = 1; fi <= fieldLength; fi++) {
                 MockTableField field = table.getField(fi - 1);
-                field.setPreparedStatementValue(preparedStatement, fi + (i * fieldLength));
+                field.setPreparedStatementValue(preparedStatement, fi + (i * fieldLength), consumers);
             }
         }
     }

@@ -4,6 +4,7 @@ import com.forte.mock.jdbc.MockSQL;
 
 import java.sql.SQLException;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 /**
@@ -37,6 +38,13 @@ public interface MockInsert<T> extends MockSQL {
      * @return 链式
      */
     MockInsert<T> sqlPeek(BiConsumer<Integer, String> sqlPeek);
+
+    /**
+     * 可以通过 字段名称 和 获取到的值进行中间操作，得到一个结果值。
+     * @param mapper 转化实例。
+     * @return 链式
+     */
+    MockInsert<T> map(BiFunction<String, Object, Object> mapper);
 
     /**
      * 是否启用异步

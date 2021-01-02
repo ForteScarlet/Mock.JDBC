@@ -28,7 +28,7 @@ public class MockTable<T> implements Closeable {
     /** 连接对象 */
     private AtomicReference<Connection> connection = new AtomicReference<>(null);
     /** 表名 */
-    private final String tableName;
+    private String tableName;
     /** 表字段列表 */
     private final MockTableField[] fields;
     /** 尾部参数 */
@@ -41,6 +41,7 @@ public class MockTable<T> implements Closeable {
     private final int fieldNameLength;
     /** 默认不自动提交事物 */
     private boolean autoCommit = false;
+
 
     /**
      * 构造
@@ -136,6 +137,10 @@ public class MockTable<T> implements Closeable {
         return tableName;
     }
 
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
     /**
      * 获取表字段列表
      * @return 表字段列表
@@ -195,7 +200,7 @@ public class MockTable<T> implements Closeable {
         }
     }
 
-    public boolean isClose(){
+    public boolean isClosed(){
         return close;
     }
 
